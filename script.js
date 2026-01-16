@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function performRealAnalysis(jd, resumeFile) {
         // !!! PASTE YOUR REAL API KEY HERE !!!
-        const apiKey = "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"; 
+        const apiKey = "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"; 
         
         const jdStatus = document.getElementById('jdStatus');
         const loadingContent = document.getElementById('loadingContent');
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             {
               "score": number (0-100),
               "missingKeywords": ["keyword1", "keyword2", "keyword3"],
-              "suggestions": ["specific actionable tip 1", "specific actionable tip 2", "specific actionable tip 3"]
+              "suggestions": ["specific actionable tip 1 ", "specific actionable tip 2", "specific actionable tip 3"] (keep suggestion short and to the point also  donot use special characters,you can use font weights)
             }
 
             JOB DESCRIPTION:
@@ -128,18 +128,24 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // C. Update Suggestions (Limited to MAX_SUGGESTIONS & Bulleted)
-            const suggestionsContainer = document.getElementById('suggestionsText');
-            suggestionsContainer.innerHTML = ""; // Clear previous
+            // C. Update Suggestions (Limited to MAX_SUGGESTIONS & Bulleted)
+    const suggestionsContainer = document.getElementById('suggestionsText');
+    suggestionsContainer.innerHTML = ""; // Clear previous
+
+    if (result.suggestions && Array.isArray(result.suggestions)) {
+        result.suggestions.slice(0, MAX_SUGGESTIONS).forEach(tip => {
+            const li = document.createElement('li');
             
-            if(result.suggestions && Array.isArray(result.suggestions)) {
-                // Slice array to the limit
-                result.suggestions.slice(0, MAX_SUGGESTIONS).forEach(tip => {
-                    const li = document.createElement('li');
-                    li.innerText = tip;
-                    li.style.marginBottom = "8px"; // Add some spacing
-                    suggestionsContainer.appendChild(li);
-                });
-            } else if (typeof result.suggestions === 'string') {
+            // --- THIS PART FIXES THE BOLDING ---
+            // It looks for **text** and replaces it with <b>text</b>
+            const formattedTip = tip.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            li.innerHTML = formattedTip; 
+            // ------------------------------------
+
+            li.style.marginBottom = "8px"; 
+            suggestionsContainer.appendChild(li);
+        });
+    } else if (typeof result.suggestions === 'string') {
                 // Fallback if AI returns a single string
                 const li = document.createElement('li');
                 li.innerText = result.suggestions;
