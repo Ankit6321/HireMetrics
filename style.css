@@ -171,3 +171,42 @@ textarea#jdInput {
 .hidden {
     display: none !important;
 }
+
+/* ===========================
+   Mobile Responsive Styles
+=========================== */
+@media (max-width: 768px) {
+
+    /* Stack sections vertically */
+    .container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    /* Make both sections full width */
+    .upload-section,
+    .display-section {
+        flex: 1;
+        width: 100%;
+    }
+
+    /* Results grid becomes single column */
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Improve spacing on mobile */
+    .card,
+    .content-box {
+        padding: 18px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    textarea#jdInput {
+        height: 150px;
+    }
+}
